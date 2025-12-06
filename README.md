@@ -1,116 +1,212 @@
-# Recruitment Management System Backend
+# Recruitment Management System – Backend (Spring Boot)
 
-This project is a complete backend server for a Recruitment Management System, built with Spring Boot as part of a technical assignment. It provides a RESTful API for managing users (Admins & Applicants), job openings, and job applications, including resume parsing via a third-party API.
+A **production-ready backend server** for managing the entire recruitment lifecycle — from job posting to candidate hiring.  
+Includes secure authentication, resume parsing, workflow automation, and modular architecture.
 
-
----
-
-## ## Features
-
--   **User Management**: Secure signup and login for Admins and Applicants.
--   **Authentication**: JWT-based authentication to secure endpoints.
--   **Authorization**: Role-based access control (Admin vs. Applicant).
--   **Job Management**: Admins can create and view job openings and their applicants.
--   **Resume Processing**: Applicants can upload resumes (PDF/DOCX), which are automatically parsed to extract key information.
--   **Application Logic**: Enforces that applicants must upload a resume before they can apply for a job.
--   **Database**: Uses MySQL for persistent data storage.
--   **API Documentation**: Interactive API documentation via Swagger UI.
+<p align="center">
+  <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=spring&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white"/>
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
+  <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black"/>
+</p>
 
 ---
 
-## ## Project Structure
+## 🚀 Features
 
-The project follows a standard layered architecture to ensure separation of concerns and maintainability:
-
--   `config`: Contains all configuration classes, including `SecurityConfig` and `ApplicationConfig`.
--   `controller`: Handles all incoming HTTP requests and API endpoints.
---   `dto`: (Data Transfer Objects) Classes for transferring data between the client and server.
--   `exception`: A global exception handler for consistent error responses.
--   `model`: JPA entities representing the database tables.
--   `repository`: Spring Data JPA interfaces for database operations.
--   `security`: JWT utility classes and `UserDetailsService` implementation.
--   `service`: Contains the core business logic of the application.
-
----
-
-## ## Setup and Run Instructions
-
-### Prerequisites
-
--   JDK 17 or higher
--   Maven 3.6+
--   MySQL Server
-
-### 1. Database Setup
-
-1.  Ensure your MySQL server is running.
-2.  Connect to your MySQL instance and create the database:
-    ```sql
-    CREATE DATABASE recruitmentdb;
-    ```
-
-### 2. Configuration
-
-1.  Open the `src/main/resources/application.properties` file.
-2.  Update the MySQL credentials to match your local setup:
-    ```properties
-    spring.datasource.username=your_mysql_username
-    spring.datasource.password=your_mysql_password
-    ```
-
-> **Note on Secrets**: For this assignment, API keys and secrets have been left in the `application.properties` file for ease of testing. In a production environment, these would be managed securely using environment variables or a secrets management service like HashiCorp Vault.
-
-### 3. Build and Run the Application
-
-1.  Clone the repository.
-2.  Navigate to the project root and run a clean build:
-    ```bash
-    mvn clean install
-    ```
-3.  Run the application using Maven:
-    ```bash
-    mvn spring-boot:run
-    ```
-4.  The application will start on `http://localhost:8081`.
+- **User Management** – Admin & Applicant roles with RBAC  
+- **JWT Authentication** – Secure, stateless token-based sessions  
+- **Job Management** – Create, update, delete, and view job openings  
+- **Recruitment Workflow:**  
+  `APPLIED → SHORTLISTED → INTERVIEW → HIRED`  
+- **Applicant Dashboard** – Application history & status updates  
+- **Resume Parsing** – Extract skills, education & experience from PDF/DOCX  
+- **MySQL Persistence** – Reliable and scalable relational storage  
+- **Environment-based Secrets** – Configurable DB & API keys  
+- **Swagger Documentation** – Complete interactive API explorer  
 
 ---
 
-## ## API Documentation & Testing
+## 📂 Project Structure
 
-Once the application is running, the interactive Swagger UI documentation is available at:
+```
+src/main/java/com/example/recruitment
+│
+├── config         → Security, CORS, Beans
+├── controller     → REST controllers
+├── dto            → Request/Response DTOs
+├── model          → Entities (JPA)
+├── repository     → Data access layer
+├── service        → Business logic
+├── security       → JWT filters, utils, UserDetails
+└── exception      → Global exception handling
+```
 
-**`http://localhost:8081/swagger-ui.html`**
+---
 
-You can use the Swagger UI to test all the API endpoints.
+## 🛠️ Setup & Installation
+
+### 1️⃣ Prerequisites
+- JDK 17+
+- Maven 3.6+
+- MySQL Server installed
+
+---
+
+### 2️⃣ Database Setup
+
+```sql
+CREATE DATABASE recruitmentdb;
+```
+
+---
+
+### 3️⃣ Environment Variables
+
+| Variable        | Description          | Example |
+|----------------|----------------------|---------|
+| `DB_URL`       | JDBC URL             | `jdbc:mysql://localhost:3306/recruitmentdb` |
+| `DB_USERNAME`  | MySQL Username       | `root` |
+| `DB_PASSWORD`  | MySQL Password       | `your_password` |
+| `JWT_SECRET`   | JWT Secret Key       | `YourLongSecretKey` |
+| `RESUME_API_KEY` | Resume Parser Key  | `YourApiKey` |
+
+> 💡 **Tip:** In IntelliJ → Run Configurations → Add Environment Variables.
+
+---
+
+## 🧪 Build & Run
+
+### Clone repository
+
+```bash
+git clone https://github.com/pawang001/Recruitment-Management-System.git
+cd Recruitment-Management-System
+```
+
+### Build
+
+```bash
+mvn clean install
+```
+
+### Start Server
+
+```bash
+mvn spring-boot:run
+```
+
+Server runs at: **http://localhost:8081**
+
+---
+
+## 📘 Swagger UI
+
+Access API docs at:
+
+👉 **http://localhost:8081/swagger-ui.html**
+
+### Steps:
+1. Run the server  
+2. Login to obtain JWT token  
+3. Click **Authorize**  
+4. Enter:  
+   ```
+   Bearer <token>
+   ```
+5. Access secured endpoints  
+
+---
 
 ### Main View
+
 The main view lists all available controllers and their endpoints.
 
+
+
 ![Swagger Main View](docs/images/swagger-main-1.png)
+
 ![Swagger Main View](docs/images/swagger-main-2.png)
 
+
+
 ### Authentication Flow
+
 To access secured endpoints, you must first authenticate.
 
+
+
 1.  Use the `POST /api/auth/login` endpoint with a valid user's credentials to get a JWT.
+
 2.  Click the **Authorize** button at the top of the page.
+
 3.  In the pop-up, paste the token in the format `Bearer <your_token>`.
 
+
+
 ![Swagger Login Endpoint](docs/images/swagger-login-endpoint.png)
+
 ![Swagger Authorize Modal](docs/images/swagger-authorize-modal.png)
+
 
 ---
 
-## ## API Endpoints Overview
+## 🔗 API Endpoints Overview
 
-| Method | Path                               | Description                                      | Role Required |
-| :----- | :--------------------------------- | :----------------------------------------------- | :------------ |
-| `POST` | `/api/auth/signup`                 | Create a new user account                        | Public        |
-| `POST` | `/api/auth/login`                  | Authenticate and receive a JWT                   | Public        |
-| `POST` | `/api/admin/job`                   | Create a new job opening                         | **ADMIN** |
-| `GET`  | `/api/admin/job/{id}`              | Get details of a specific job opening            | **ADMIN** |
-| `GET`  | `/api/admin/applicants`            | Get a list of all applicants                     | **ADMIN** |
-| `GET`  | `/api/admin/applicant/{id}`        | Get a specific applicant's profile data          | **ADMIN** |
-| `POST` | `/api/applicant/uploadResume`      | Upload and process a resume                      | **APPLICANT** |
-| `GET`  | `/api/jobs`                        | Fetch all available job openings                 | Authenticated |
-| `POST` | `/api/jobs/apply?job_id={id}`      | Apply for a specific job                         | **APPLICANT** |
+---
+
+### 🔐 Authentication
+
+| Method | Path | Description | Role |
+|--------|------|-------------|------|
+| POST | `/api/auth/signup` | Register Admin/Applicant | Public |
+| POST | `/api/auth/login` | Login & receive JWT | Public |
+
+---
+
+### 🛠️ Admin Endpoints
+
+| Method | Path | Description | Role |
+|--------|------|-------------|------|
+| POST | `/api/admin/job` | Create job | ADMIN |
+| PUT | `/api/admin/job/{id}` | Update job | ADMIN |
+| DELETE | `/api/admin/job/{id}` | Delete job | ADMIN |
+| GET | `/api/admin/applicants` | List all applicants | ADMIN |
+| GET | `/api/admin/applicant/{id}` | View applicant details | ADMIN |
+| PUT | `/api/admin/application/{id}/status` | Change application status | ADMIN |
+
+---
+
+### 👨‍💼 Applicant Endpoints
+
+| Method | Path | Description | Role |
+|--------|------|-------------|------|
+| POST | `/api/applicant/uploadResume` | Upload & parse resume | APPLICANT |
+| GET | `/api/applicant/my-applications` | View application history | APPLICANT |
+
+---
+
+### 📄 Job Endpoints
+
+| Method | Path | Description | Role |
+|--------|------|-------------|------|
+| GET | `/api/jobs` | List all jobs | Authenticated |
+| POST | `/api/jobs/apply` | Apply for job | APPLICANT |
+
+---
+
+## 🐞 Troubleshooting
+
+### ❌ Cannot connect to MySQL
+- Ensure MySQL service is running  
+- Verify credentials in environment variables  
+- Check if port `3306` is available  
+
+### ❌ Resume Parsing not working
+- Verify `RESUME_API_KEY`  
+- Check external API usage limits  
+
+### ❌ Swagger returns 403
+- Login & obtain JWT token  
+- Click **Authorize** → Enter `Bearer <token>`  
